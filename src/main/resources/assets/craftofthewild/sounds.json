@@ -1,0 +1,12 @@
+{
+	"pickup_rupee": {
+		"category": "player",
+		"subtitle": "craftofthewild.subtitle.rupeePickup",
+		"sounds": [
+			{
+				"name":	"craftofthewild:pickup_rupee",
+				"stream": false
+			}
+		]
+	}
+}

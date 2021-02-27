@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "craftofthewild:item_rupee_green"
+    }
+  ],
+  "result": {
+    "item": "craftofthewild:sword_master",
+	"count": 1
+  }
+}

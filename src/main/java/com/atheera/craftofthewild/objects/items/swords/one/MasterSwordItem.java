@@ -35,19 +35,21 @@ public class MasterSwordItem extends SwordItem {
 	public String tagDurability = "durability";
 	public int durability;
 	
-	public String tagLevel = "";
+	public String tagLevel = "level";
 	public int level;
-	public int[] milestones = { 10, 20, 30 };
 	
 	public String tagCharges = "charges";
 	public int charges;
 	
+	public String tagTimer = "timer";
+	public int timer;
+	
+	public String tagCounter = "count";
+	public int counter;
+	
 	//Local variables
-	private int timer;
-	private int cooldown = 200;
-	private int counter;
-	private boolean removeText1;
-	private boolean removeText2;
+	private final int cooldown = 200;
+	private final int[] milestones = { 10, 20, 30 };
 	
 	public MasterSwordItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
@@ -56,66 +58,48 @@ public class MasterSwordItem extends SwordItem {
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         CompoundNBT nbt = stack.getOrCreateTag();
-        if (KeyboardHelper.isHoldingCtrl()) { //Adds info of how to level up the sword if CTRL is held down while hovering
+        int taglevel = nbt.getInt(tagLevel);
+        int tagtimer = nbt.getInt(tagTimer);
+        boolean tagdragon = nbt.getBoolean(tagDragon);
+        boolean tagwither = nbt.getBoolean(tagWither);
+        boolean tagcharged = nbt.getBoolean(tagCharged);
+        if(KeyboardHelper.isHoldingCtrl()) { //Adds info of how to level up the sword if CTRL is held down while hovering
  
-            if (nbt.getInt(tagLevel) < milestones[0]) { //Less than milestone 1
-                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[0] - nbt.getInt(tagLevel)) + " kills to get the next upgrade."));
+            if(taglevel < milestones[0]) { //Less than milestone 1
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[0] - taglevel) + " kills to get the next upgrade."));
  
-            } else if ((nbt.getInt(tagLevel) >= milestones[0] && nbt.getInt(tagLevel) < milestones[1]) || //Less than milestone 2
-                    (nbt.getInt(tagLevel) >= milestones[0] && !nbt.getBoolean(tagWither) && !nbt.getBoolean(tagDragon))) { //Or more than milestone 2 but not killed the boss
-                if (nbt.getInt(tagLevel) < milestones[1]) {
-                    tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[1] - nbt.getInt(tagLevel)) + " kills to get the next upgrade."));
-                    removeText1 = false;
-                    do {
-                        if ((nbt.getInt(tagLevel) >= milestones[1] && !nbt.getBoolean(tagWither)) && !removeText1) {
-                            tooltip.remove(1);
-                            removeText1 = true;
-                        }
-                    } while (!removeText1);
-                }
-                if (removeText1) {
-                    tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Enough kills have been achieved."));
-                }
+            } else if((taglevel >= milestones[0] && taglevel < milestones[1]) || //Less than milestone 2
+                      (taglevel >= milestones[0] && !tagwither)) { //Or more than milestone 2 but not killed the boss
+            	int remaining = milestones[1] - taglevel;
+            	if(remaining <= 0) remaining = 0;
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + remaining + " kills to get the next upgrade."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword also requires the soul of the Wither boss to evolve further."));
-                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + nbt.getBoolean(tagWither)));
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + tagwither));
  
-            } else if (((nbt.getInt(tagLevel) >= milestones[1] && nbt.getInt(tagLevel) < milestones[2]) && nbt.getBoolean(tagWither)) || //Less than milestone 3
-                    ((nbt.getInt(tagLevel) >= milestones[1] && nbt.getBoolean(tagWither)) && !nbt.getBoolean(tagDragon))) { //More than milestone but not killed the boss
-                boolean removed;
-                if (nbt.getInt(tagLevel) < milestones[2]) {
-                    tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[2] - nbt.getInt(tagLevel)) + " kills to get the next upgrade."));
-                    removed = false;
-                    if ((nbt.getInt(tagLevel) >= milestones[2] && !nbt.getBoolean(tagDragon)) && !removed) {
-                        tooltip.remove(1);
-                        removed = true;
-                    } else if (removed) {
-                        tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Enough kills have been achieved."));
-                    }
-                }
-                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[2] - nbt.getInt(tagLevel)) + " kills to get the next upgrade."));
+            } else if(((taglevel >= milestones[1] && taglevel < milestones[2]) && tagwither) || //Less than milestone 3
+                      ((taglevel >= milestones[1] && tagwither) && !tagdragon)) { //Or more than milestone 3 but not killed the boss
+            	int remaining = milestones[2] - taglevel;
+            	if(remaining <= 0) remaining = 0;
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + remaining + " kills to get the next upgrade."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword also requires the soul of the Ender Dragon to evolve further."));
-                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + nbt.getBoolean(tagDragon)));
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + tagdragon));
  
-            } else if (nbt.getInt(tagLevel) >= milestones[2] && nbt.getBoolean(tagDragon) && nbt.getBoolean(tagWither)) { //More than milestone 3
+            } else if(taglevel >= milestones[2] && tagdragon && tagwither) { //More than milestone 3
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword has been fully upgraded and is at it's greatest power!"));
- 
-            } else { //Error message
-                tooltip.add(new StringTextComponent(TextFormatting.RED + "Something went horribly wrong!"));
-            }
+           
+                //Error message
+            } else { tooltip.add(new StringTextComponent(TextFormatting.RED + "Something went horribly wrong!")); }
  
         } else if (KeyboardHelper.isHoldingShift()) { //Adds description from the game to the item if SHIFT is held down while hovering
             tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The legendary sword that seals the darkness. Its blade gleams with a sacred luster that can oppose the Calamity. Only a hero chosen by the sword itself may wield it."));
  
         } else { //Regular info displayed when not holding SHIFT or CTRL
-            if (!(nbt.getBoolean(tagCharged))) {
-                tooltip.add(new StringTextComponent(TextFormatting.RED + "Sword is broken, time until repaired: " + (cooldown - timer)));
-                if (timer >= cooldown && !nbt.getBoolean(tagCharged)) {
-                    tooltip.remove(1);
-                }
+            if (!tagcharged) { tooltip.add(new StringTextComponent(TextFormatting.RED + "Sword is broken do not use it again! Time until repaired: " + (cooldown - tagtimer)));
+                if (tagtimer >= cooldown && !tagcharged) { tooltip.remove(1); }
             }
             tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Durability remaining: " + nbt.getInt(tagDurability)));
-            tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Is charged: " + nbt.getBoolean(tagCharged)));
-            tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Current level: " + nbt.getInt(tagLevel)));
+            tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Is charged: " + tagcharged));
+            tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Current level: " + taglevel));
             tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Slash charges remaining: " + nbt.getInt(tagCharges)));
             tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Hold " + TextFormatting.LIGHT_PURPLE + "SHIFT" + TextFormatting.WHITE + " for description."));
             tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Hold " + TextFormatting.LIGHT_PURPLE + "CTRL" + TextFormatting.WHITE + " for more information."));
@@ -147,28 +131,30 @@ public class MasterSwordItem extends SwordItem {
     public void inventoryTick(ItemStack stack, @Nonnull World worldIn, @Nonnull Entity entityIn, int itemSlot, boolean isSelected) {
         CompoundNBT nbt = stack.getOrCreateTag();
         int taglevel = nbt.getInt(tagLevel);
+        int tagtimer = nbt.getInt(tagTimer);
         boolean tagwither = nbt.getBoolean(tagWither);
+        boolean tagdragon = nbt.getBoolean(tagDragon);
         
         if (!nbt.getBoolean(tagCharged)) {
-            timer++;
+            nbt.putInt(tagTimer, tagtimer + 1);
         }
-        if (!(timer >= cooldown)) {
+        if (!(tagtimer >= cooldown)) {
             super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
             return;
         }
-        timer = 0;
+        nbt.putInt(tagTimer, tagtimer = 0);
         if (taglevel < milestones[0]) { //Does V if first upgrade milestone not reached
             setNBT(nbt, stack, 10, 5);
  
-        } else if ((taglevel >= milestones[0] && taglevel < milestones[1]) ||
-                   (taglevel >= milestones[0] && !tagwither && !nbt.getBoolean(tagDragon))) { //Does V if second upgrade milestone not reached
+        } else if ((taglevel >= milestones[0] && taglevel < milestones[1] && !tagwither) ||
+                   (taglevel >= milestones[0] && !tagwither && !tagdragon)) { //Does V if first upgrade milestone is reached
             setNBT(nbt, stack, 10, 10);
  
         } else if (((taglevel >= milestones[1] && taglevel < milestones[2]) && tagwither) ||
-                  ((taglevel >= milestones[1] && tagwither) && !nbt.getBoolean(tagDragon))) { //Does V if third upgrade milestone not reached
+                   ((taglevel >= milestones[1] && tagwither) && !tagdragon)) { //Does V if second upgrade milestone is reached
             setNBT(nbt, stack, 20, 20);
  
-        } else if (taglevel >= milestones[2] && nbt.getBoolean(tagDragon) && tagwither) { //Does V if third upgrade milestone is reached
+        } else if (taglevel >= milestones[2] && tagdragon && tagwither) { //Does V if third upgrade milestone is reached
             setNBT(nbt, stack, 30, 30);
         }
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
@@ -191,41 +177,46 @@ public class MasterSwordItem extends SwordItem {
     //Method called in LevelupSwordsEvent to level up the sword as well as give it charges per 10 kills
     public void levelUp(ItemStack stack, EMobType type) {
         CompoundNBT nbt = stack.getOrCreateTag();
+        int level = nbt.getInt(tagLevel);
+        int counter = nbt.getInt(tagCounter);
         switch (type) {
             case DRAGON: {
-            	nbt.putInt(tagLevel, nbt.getInt(tagLevel) + 10);
+            	nbt.putInt(tagLevel, level + 10);
+            	break;
             }
             case WITHER: {
-                nbt.putInt(tagLevel, nbt.getInt(tagLevel) + 5);
+                nbt.putInt(tagLevel, level + 5);
                 break;
             }
             case REGULAR: {
-                nbt.putInt(tagLevel, nbt.getInt(tagLevel) + 1);
+                nbt.putInt(tagLevel, level + 1);
                 break;
             }
         }
-        counter++;
+        nbt.putInt(tagTimer, counter + 1);
         if (counter == 10) {
-            nbt.putInt(tagCharges, nbt.getInt(tagCharges) + 1);
-            counter = 0;
+            nbt.putInt(tagCharges, level + 1);
+            nbt.putInt(tagCounter, counter = 0);
         }
     }
  
     //Method called in DamageSwordsEvent to remove durability when hitting enemies, if none remain then break the sword
     public void damageItem(ItemStack stack) {
         CompoundNBT nbt = stack.getOrCreateTag();
-        if (!nbt.getBoolean(tagCharged)) {
+        boolean tagcharged = nbt.getBoolean(tagCharged);
+        int tagdurability = nbt.getInt(tagDurability);
+        if (!tagcharged) {
             return;
         }
         if (!nbt.contains(tagDurability)) {
             return;
         }
-        if (nbt.getInt(tagDurability) >= 1) {
-            nbt.putInt(tagDurability, nbt.getInt(tagDurability) - 1);
+        if (tagdurability >= 1) {
+            nbt.putInt(tagDurability, tagdurability - 1);
         } else {
-            this.charged = nbt.getBoolean(tagCharged);
+            this.charged = tagcharged;
             nbt.putBoolean(tagCharged, false);
-            this.durability = nbt.getInt(tagDurability);
+            this.durability = tagdurability;
             nbt.putInt(tagDurability, 0);
             stack.getEnchantmentTagList().clear();
         }

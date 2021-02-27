@@ -49,7 +49,9 @@ public class MasterSwordItem extends SwordItem {
 	
 	//Local variables
 	private final int cooldown = 200;
-	private final int[] milestones = { 10, 20, 30 };
+	private final int milestone1 = 10;
+	private final int milestone2 = 20;
+	private final int milestone3 = 30;
 	
 	public MasterSwordItem(IItemTier tier, int attackDamageIn, float attackSpeedIn, Properties builderIn) {
 		super(tier, attackDamageIn, attackSpeedIn, builderIn);
@@ -65,26 +67,26 @@ public class MasterSwordItem extends SwordItem {
         boolean tagcharged = nbt.getBoolean(tagCharged);
         if(KeyboardHelper.isHoldingCtrl()) { //Adds info of how to level up the sword if CTRL is held down while hovering
  
-            if(taglevel < milestones[0]) { //Less than milestone 1
-                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestones[0] - taglevel) + " kills to get the next upgrade."));
+            if(taglevel < milestone1) { //Less than milestone 1
+                tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + (milestone1 - taglevel) + " kills to get the next upgrade."));
  
-            } else if((taglevel >= milestones[0] && taglevel < milestones[1]) || //Less than milestone 2
-                      (taglevel >= milestones[0] && !tagwither)) { //Or more than milestone 2 but not killed the boss
-            	int remaining = milestones[1] - taglevel;
+            } else if((taglevel >= milestone1 && taglevel < milestone2) || //Less than milestone 2
+                      (taglevel >= milestone1 && !tagwither)) { //Or more than milestone 2 but not killed the boss
+            	int remaining = milestone2 - taglevel;
             	if(remaining <= 0) remaining = 0;
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + remaining + " kills to get the next upgrade."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword also requires the soul of the Wither boss to evolve further."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + tagwither));
  
-            } else if(((taglevel >= milestones[1] && taglevel < milestones[2]) && tagwither) || //Less than milestone 3
-                      ((taglevel >= milestones[1] && tagwither) && !tagdragon)) { //Or more than milestone 3 but not killed the boss
-            	int remaining = milestones[2] - taglevel;
+            } else if(((taglevel >= milestone2 && taglevel < milestone3) && tagwither) || //Less than milestone 3
+                      ((taglevel >= milestone2 && tagwither) && !tagdragon)) { //Or more than milestone 3 but not killed the boss
+            	int remaining = milestone3 - taglevel;
             	if(remaining <= 0) remaining = 0;
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword requires " + remaining + " kills to get the next upgrade."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword also requires the soul of the Ender Dragon to evolve further."));
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "Soul collected: " + tagdragon));
  
-            } else if(taglevel >= milestones[2] && tagdragon && tagwither) { //More than milestone 3
+            } else if(taglevel >= milestone3 && tagdragon && tagwither) { //More than milestone 3
                 tooltip.add(new StringTextComponent(TextFormatting.WHITE + "The sword has been fully upgraded and is at it's greatest power!"));
            
                 //Error message
@@ -143,18 +145,18 @@ public class MasterSwordItem extends SwordItem {
             return;
         }
         nbt.putInt(tagTimer, tagtimer = 0);
-        if (taglevel < milestones[0]) { //Does V if first upgrade milestone not reached
+        if (taglevel < milestone1) { //Does V if first upgrade milestone not reached
             setNBT(nbt, stack, 10, 5);
  
-        } else if ((taglevel >= milestones[0] && taglevel < milestones[1] && !tagwither) ||
-                   (taglevel >= milestones[0] && !tagwither && !tagdragon)) { //Does V if first upgrade milestone is reached
+        } else if ((taglevel >= milestone1 && taglevel < milestone2 && !tagwither) ||
+                   (taglevel >= milestone1 && !tagwither)) { //Does V if first upgrade milestone is reached
             setNBT(nbt, stack, 10, 10);
  
-        } else if (((taglevel >= milestones[1] && taglevel < milestones[2]) && tagwither) ||
-                   ((taglevel >= milestones[1] && tagwither) && !tagdragon)) { //Does V if second upgrade milestone is reached
+        } else if (((taglevel >= milestone2 && taglevel < milestone3) && tagwither) ||
+                   ((taglevel >= milestone2 && tagwither) && !tagdragon)) { //Does V if second upgrade milestone is reached
             setNBT(nbt, stack, 20, 20);
  
-        } else if (taglevel >= milestones[2] && tagdragon && tagwither) { //Does V if third upgrade milestone is reached
+        } else if (taglevel >= milestone3 && tagdragon && tagwither) { //Does V if third upgrade milestone is reached
             setNBT(nbt, stack, 30, 30);
         }
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);

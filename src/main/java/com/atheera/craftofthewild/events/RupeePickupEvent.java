@@ -12,7 +12,9 @@ import com.atheera.craftofthewild.objects.items.misc.RupeeItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,6 +27,7 @@ public class RupeePickupEvent {
 	@SubscribeEvent
 	public static void pickupItem(EntityItemPickupEvent event) {
 		PlayerEntity player = event.getPlayer();
+		World world = player.getEntityWorld();
 		ItemStack stack = event.getItem().getItem();
 		Item item = stack.getItem();
 		
@@ -37,6 +40,7 @@ public class RupeePickupEvent {
 	            player.getCapability(CurrencyCapability.CURRENCY_CAPABILITY).ifPresent(new NonNullConsumer<ICurrency>() {
 	                @Override public void accept(@Nonnull ICurrency iCurrency) { iCurrency.addOrSubtractAmount(1); } });
 	            player.playSound(sound, 100, 1);
+	            world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundInit.PICKUP.get(), SoundCategory.NEUTRAL, 1.0f, 0.8F / (0.4F + 0.8F));
 	            //world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), sound, null, 100, 10);
 	            event.getItem().getItem().shrink(1);
 			}

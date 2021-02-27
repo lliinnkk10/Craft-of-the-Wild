@@ -5,6 +5,7 @@ import com.atheera.craftofthewild.objects.items.swords.one.MasterSwordItem;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,10 +29,9 @@ public class LevelupSwordsEvent {
 			Item sword = stack.getItem();
 			
 			if(sword instanceof MasterSwordItem) {
-				((MasterSwordItem)sword).levelUp(stack);
-				if(entity instanceof WitherEntity) {
-					
-				}
+				if(entity instanceof WitherEntity) { ((MasterSwordItem)sword).levelUp(stack, 1); }
+				else if(entity instanceof EnderDragonEntity) { ((MasterSwordItem)sword).levelUp(stack, 2); }
+				else ((MasterSwordItem)sword).levelUp(stack, 0);
 			}
 		}
 	}

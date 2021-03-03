@@ -1,0 +1,50 @@
+{
+	"itemGroup.cotw_item_tab": "Craft of the Wild Items",
+	"itemGroup.cotw_food_tab": "Craft of the Wild Foods",
+	"itemGroup.cotw_weapon_tab": "Craft of the Wild Weapons",
+	"itemGroup.cotw_armor_tab": "Craft of the Wild Armor",
+	
+	"craftofthewild.subtitle.rupeePickup": "Picked up rupee",
+	
+	"container.example_chest": "Example Chest",
+	
+	"item.craftofthewild.item_rupee_green": "Green Rupee",
+	"item.craftofthewild.item_rupee_blue": "Blue Rupee",
+	"item.craftofthewild.item_rupee_red": "Red Rupee",
+	"item.craftofthewild.item_rupee_purple": "Purple Rupee",
+	"item.craftofthewild.item_rupee_silver": "Silver Rupee",
+	"item.craftofthewild.item_rupee_gold": "Gold Rupee",
+	
+	"item.craftofthewild.item_gem_salt": "Rock Salt",
+	"item.craftofthewild.item_gem_amber": "Amber",
+	"item.craftofthewild.item_gem_opal": "Opal",
+	"item.craftofthewild.item_gem_luminous": "Luminous Stone",
+	"item.craftofthewild.item_gem_topaz": "Topaz",
+	"item.craftofthewild.item_gem_ruby": "Ruby",
+	"item.craftofthewild.item_gem_sapphire": "Sapphire",
+	
+	"item.craftofthewild.item_ancient_screw": "Ancient Screw",
+	"item.craftofthewild.item_ancient_spring": "Ancient Spring",
+	"item.craftofthewild.item_ancient_shaft": "Ancient Shaft",
+	"item.craftofthewild.item_ancient_gear": "Ancient Gear",
+	"item.craftofthewild.item_ancient_core": "Ancient Core",
+	"item.craftofthewild.item_ancient_core_giant": "Giant Ancient Core",
+	
+	"item.craftofthewild.ing_hearty_durian": "Hearty Durian",
+	"item.craftofthewild.ing_hasty_lotus": "Fleet-Lotus Seeds",
+	"item.craftofthewild.ing_mighty_bananas": "Mighty Bananas",
+	"item.craftofthewild.ing_tough_shroom": "Ironshroom",
+	"item.craftofthewild.ing_energizing_bass": "Staminoka Bass",
+	"item.craftofthewild.ing_prepared_meat": "Prepared Meat",
+	"item.craftofthewild.ing_hylian_rice": "Hylian Rice",
+	
+	"item.craftofthewild.sword_master": "Master Sword",
+	"item.craftofthewild.sword_sickle": "Vicious Sickle",
+	"item.craftofthewild.sword_obliterator": "One-Hit Obliterator",
+	"item.craftofthewild.sword_spring_hammer": "Spring-Loaded Hammer",
+	
+	"item.craftofthewild.bow_soldier": "Soldier's Bow'",
+	"item.craftofthewild.bow_royal": "Royal Bow",
+	
+	"item.craftofthewild.item_arrow_ice": "Ice Arrow"
+}

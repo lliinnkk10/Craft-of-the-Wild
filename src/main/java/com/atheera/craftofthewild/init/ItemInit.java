@@ -2,6 +2,7 @@ package com.atheera.craftofthewild.init;
 
 import com.atheera.craftofthewild.Main;
 import com.atheera.craftofthewild.materials.ModToolTier;
+import com.atheera.craftofthewild.materials.Rarities;
 import com.atheera.craftofthewild.objects.items.arrows.IceArrowItem;
 import com.atheera.craftofthewild.objects.items.bows.RoyalBowItem;
 import com.atheera.craftofthewild.objects.items.bows.SoldierBowItem;
@@ -30,7 +31,7 @@ public class ItemInit {
 	private static ItemGroup iTab = Main.COTW_I_IG; //items
 	private static ItemGroup fTab = Main.COTW_F_IG; //food
 	private static ItemGroup wTab = Main.COTW_W_IG; //weapons
-	//private static ItemGroup aTab = Main.COTW_A_IG; //armor
+	//private static ItemGroup aTab = Main.COTW_A_IG; //armour
 	
 	//create
 		//regular items
@@ -109,9 +110,9 @@ public class ItemInit {
 		//elixirs
 
 		//1h swords
-	public static final RegistryObject<MasterSwordItem> SWORD_MASTER = ITEMS.register("sword_master", () -> new MasterSwordItem(ModToolTier.MASTER, (int) 0, -2.4f, new Item.Properties().group(wTab).isImmuneToFire()));
+	public static final RegistryObject<MasterSwordItem> SWORD_MASTER = ITEMS.register("sword_master", () -> new MasterSwordItem(ModToolTier.MASTER, (int) 0, -2.4f, new Item.Properties().group(wTab).isImmuneToFire().rarity(Rarities.GOLD)));
 	public static final RegistryObject<SickleSwordItem> SWORD_SICKLE = ITEMS.register("sword_sickle", () -> new SickleSwordItem(ModToolTier.SICKLE, (int) 13, -2.0f, new Item.Properties().group(wTab)));
-	public static final RegistryObject<ObliteratorSwordItem> SWORD_OBLITERATOR = ITEMS.register("sword_obliterator", () -> new ObliteratorSwordItem(ModToolTier.OBLITERATOR, (int) Integer.MAX_VALUE, -2.4f, new Item.Properties().group(wTab)));
+	public static final RegistryObject<ObliteratorSwordItem> SWORD_OBLITERATOR = ITEMS.register("sword_obliterator", () -> new ObliteratorSwordItem(ModToolTier.OBLITERATOR, (int) 1, -2.4f, new Item.Properties().group(wTab).rarity(Rarities.GOLD)));
 	public static final RegistryObject<SpringLoadedSwordItem> SWORD_SPRING = ITEMS.register("sword_spring_hammer", () -> new SpringLoadedSwordItem(ModToolTier.SPRING, (int) 2, -2.4f, new Item.Properties().group(wTab)));
 	
 		//2h swords //slow attacks, high damage
@@ -128,7 +129,7 @@ public class ItemInit {
 	
 		//rods
 	
-		//armors
+		//armours
 			//helmets
 	
 			//bodies

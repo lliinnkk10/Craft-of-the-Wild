@@ -2,6 +2,7 @@ package com.atheera.craftofthewild.events;
 
 import com.atheera.craftofthewild.Main;
 import com.atheera.craftofthewild.objects.items.swords.one.MasterSwordItem;
+import com.atheera.craftofthewild.objects.items.swords.one.ObliteratorSwordItem;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -26,6 +27,9 @@ public class DamageSwordsEvent {
 			
 			if(item instanceof MasterSwordItem) {
 				((MasterSwordItem)item).damageItem(stack);
+			}
+			if(item instanceof ObliteratorSwordItem) {
+				((ObliteratorSwordItem)item).damageItem(stack);
 			}
 		}
 	}

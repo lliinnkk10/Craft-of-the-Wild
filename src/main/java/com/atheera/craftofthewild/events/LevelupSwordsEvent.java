@@ -29,9 +29,9 @@ public class LevelupSwordsEvent {
 			Item sword = stack.getItem();
 			
 			if(sword instanceof MasterSwordItem) {
-				if(entity instanceof WitherEntity) { ((MasterSwordItem)sword).levelUp(stack, 1); }
-				else if(entity instanceof EnderDragonEntity) { ((MasterSwordItem)sword).levelUp(stack, 2); }
-				else ((MasterSwordItem)sword).levelUp(stack, 0);
+				if(entity instanceof WitherEntity) { ((MasterSwordItem)sword).levelUp(stack, MasterSwordItem.EMobType.WITHER); }
+				else if(entity instanceof EnderDragonEntity) { ((MasterSwordItem)sword).levelUp(stack, MasterSwordItem.EMobType.DRAGON); }
+				else ((MasterSwordItem)sword).levelUp(stack, MasterSwordItem.EMobType.REGULAR);
 			}
 		}
 	}

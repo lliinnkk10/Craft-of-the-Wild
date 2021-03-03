@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "craftofthewild:blocks/example_chest"
+	}
+}

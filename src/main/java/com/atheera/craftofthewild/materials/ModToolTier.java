@@ -18,7 +18,7 @@ public enum ModToolTier implements IItemTier {
 	SICKLE(1, 251, 1.0f, 0.0f, 14, () -> {
 		return Ingredient.fromItems(Items.IRON_INGOT);
 	}),
-	MASTER(4, 5, 10.0f, 1.0f, 0, () -> {
+	MASTER(4, 5, 10.0f, 0.0f, 0, () -> {
 		return Ingredient.fromItems(Items.NETHER_STAR);
 	});
 	
